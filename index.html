@@ -22,7 +22,7 @@
 
 <main>
     <h1>StockData</h1>
-    <span>API documentation: </span><a href="stockdata.org/documentation">stockdata.org</a>
+    <span>API documentation: </span><a href="https://www.stockdata.org/documentation">stockdata.org</a>
 
     <!-- <div class="container" style="margin-top: 30px;">
         <span>Siglas: </span><input type="text" placeholder="symbol" id="symbol_input" value="AAPL">
@@ -34,14 +34,15 @@
     <div class="container" style="margin-top: 30px;">
         <div class="left">
             <div class="input_container">
-                <span>Symbol: </span><input type="text" placeholder="symbol" id="symbol_input" value="AAPL">
+                <span>Symbol: </span><input type="text" id="symbol_input" placeholder="AAPL">
+                <span class="tooltip">?</span><span class="tooltip_text">No hace falta usar mayúsculas!</span>
             </div>
             <div class="input_container">
                 <!-- <span>Date: </span><input type="date" name="date" id="current_date" value="2024-02-01"> -->
-                <span>Cotización actual: </span><input type="number" id="cotizacion_input" value="185.85">
+                <span>Cotización actual: </span><input type="number" id="cotizacion_input" placeholder="185.85">
             </div>
             <div class="input_container">
-                <span>Días de tenencia: </span><input type="number" name="days_back" id="days_back" value="1" min="1">
+                <span>Días de tenencia: </span><input type="number" name="days_back" id="days_back" placeholder="1" min="1">
             </div>
         </div>
         <div class="right">
