@@ -26,7 +26,7 @@ function subtractDays(days){
 }
 
 
-//once both data points have been resolved calculates the variance
+//once both data points have been resolved calculates the variation
 async function fetchData(symbol, cotizacion, date){
     try {
         const [data] = await Promise.all([
@@ -34,23 +34,30 @@ async function fetchData(symbol, cotizacion, date){
         ]);
         
         const [dateData, close] = data;
-        let variance = getVariance(close, cotizacion);
+        let variation = getVariation(close, cotizacion);
         
         let currentDate = extractDate(new Date());
-        
-        const markup = `<li>${symbol} cerró a ${close} en el día ${date}; y a ${cotizacion} en el día ${currentDate}. Varianza: ${variance}</li>`;
-        document.querySelector('ul').insertAdjacentHTML('beforeend', markup);
+
+        const markup = `<tr>
+                            <td>${symbol}</td>
+                            <td>${date}</td>
+                            <td>${close}</td>
+                            <td>${cotizacion}</td>
+                            <td>${variation}</td>
+                        </tr>`
+
+        document.querySelector('tr').insertAdjacentHTML('afterend', markup);
         
     } catch (error){
         console.error('Error ', error);
     }
 }
 
-//takes the closing values and calculates the % variance rounding at 2 decimals, close2 being the most recent date
-function getVariance(close1, close2){
-    let variance = ((close2-close1)/close1)*100;
-    variance = Math.round(variance * 100) / 100;
-    return variance;
+//takes the closing values and calculates the variation % rounding at 2 decimals, close2 being the most recent date
+function getVariation(close1, close2){
+    let variation = ((close2-close1)/close1)*100;
+    variation = Math.round(variation * 100) / 100;
+    return variation;
 }
 
 //extracts a string in format "YYYY-MM-DD" from a Date object

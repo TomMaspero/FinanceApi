@@ -135,3 +135,18 @@ button:hover {
 .tooltip:hover + .tooltip_text {
     display: block;
 }
+
+ul {
+    list-style: none;
+}
+
+table {
+    width: 50%;
+    margin-bottom: 100px;
+    text-align: center;
+    font-size: 18px;
+}
+
+th, td {
+    padding-bottom: 5px;
+}

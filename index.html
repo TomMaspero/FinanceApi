@@ -46,12 +46,22 @@
             </div>
         </div>
         <div class="right">
-            <button id="get_symbol" onclick="getData()">Calcular Varianza</button>
+            <button id="get_symbol" onclick="getData()">Calcular Variación</button>
         </div>
     </div>    
     
-    <div class="list_container">
-        <ul class="list" id="lista_cotizaciones"></ul>
+<!-- AAPL cerró a 188.02 en el día 2024-01-30; y a 185.5 en el día 2024-02-04. Varianza: -1.34 -->
+
+    <div class="table_container">
+        <table>
+            <tr>
+                <th>Symbol</th>
+                <th>Fecha</th>
+                <th>Cotización</th>
+                <th>Actual</th>
+                <th>Variación</th>
+            </tr>
+        </table>
     </div>
 
 </main>    
