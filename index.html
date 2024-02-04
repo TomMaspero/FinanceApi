@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StockData API</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- <header>
+    <div class="header_container">
+        <h2 class="header_title">Select API</h2>
+        <ul class="list_container">
+            <li><a class="link" href="./YahooFinanceAPI/yahoofinance.html">YahooFinance</a></li>
+            <li><a class="link" href="#">StockData</a></li>
+            <li><a class="link" href="./TwelveData/twelvedata.html">TwelveData</a></li>
+        </ul>
+    </div>
+</header>     -->
+
+<main>
+    <h1>StockData</h1>
+    <span>API documentation: </span><a href="stockdata.org/documentation">stockdata.org</a>
+
+    <!-- <div class="container" style="margin-top: 30px;">
+        <span>Siglas: </span><input type="text" placeholder="symbol" id="symbol_input" value="AAPL">
+        <span>Date from</span><input type="date" name="date_from" id="date_from" value="2023-12-01">
+        <span>Date to</span><input type="date" name="date_to" id="date_to" value="2024-02-01">
+        <button id="get_symbol" onclick="getDataFromRange()">Send</button>
+    </div>     -->
+
+    <div class="container" style="margin-top: 30px;">
+        <span>Symbol: </span><input type="text" placeholder="symbol" id="symbol_input" value="AAPL">
+        <span>Date: </span><input type="date" name="date" id="current_date" value="2024-02-01">
+        <span>Days back: </span><input type="number" name="days_back" id="days_back" value="1" min="1">
+        <button id="get_symbol" onclick="getData()">Send</button>
+    </div>    
+    
+    <ul>
+
+    </ul>
+
+</main>    
+    
+</body>
+
+<script src="script.js"></script>
+</html>
