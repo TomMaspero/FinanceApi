@@ -10,50 +10,37 @@ function getDataFromRange(){
 
 function getData(){
     let symbol = document.getElementById("symbol_input").value.toUpperCase();
-    let date = document.getElementById("current_date").value;
+    let cotizacion = document.getElementById("cotizacion_input").value;
     let days = document.getElementById("days_back").value;
 
-    let priorDate = extractDate(subtractDays(date, days));
-    
-    console.log(priorDate, date);
+    let date = extractDate(subtractDays(days));
 
-    fetchData(symbol, priorDate, date);
+    fetchData(symbol, cotizacion, date);
 }
 
-function subtractDays(date, days){
-    let newDate = new Date(date);
-    // console.log(date)
+function subtractDays(days){
+    let newDate = new Date();
     newDate.setDate(newDate.getDate() - (days-1))
+    // console.log(newDate.getDay());
     return newDate;
 }
 
-//extracts a string in format "YYYY-MM-DD" from a Date object
-function extractDate(date){
-    let year = date.getFullYear();
-    let month = ('0' + (date.getMonth() + 1)).slice(-2);
-    let day = ('0' + date.getDate()).slice(-2);
-    
-    let dateString = `${year}-${month}-${day}`;
-    return dateString;
-}
 
 //once both data points have been resolved calculates the variance
-async function fetchData(symbol, date1, date2){
+async function fetchData(symbol, cotizacion, date){
     try {
-        const [data1, data2] = await Promise.all([
-            fetchStockData(symbol, date1),
-            fetchStockData(symbol, date2)
-            // fetchMockData(date1),
-            // fetchMockData(date2),
+        const [data] = await Promise.all([
+            fetchStockData(symbol, date)
         ]);
-
-        const [date1Data, close1] = data1;
-        const [date2Data, close2] = data2;
-        let variance = getVariance(close1, close2);
-
-        const markup = `<li>${symbol} closed at ${close1} on ${date1} and at ${close2} on ${date2}, variance: ${variance}</li>`;
+        
+        const [dateData, close] = data;
+        let variance = getVariance(close, cotizacion);
+        
+        let currentDate = extractDate(new Date());
+        
+        const markup = `<li>${symbol} cerró a ${close} en el día ${date}; y a ${cotizacion} en el día ${currentDate}. Varianza: ${variance}</li>`;
         document.querySelector('ul').insertAdjacentHTML('beforeend', markup);
-
+        
     } catch (error){
         console.error('Error ', error);
     }
@@ -64,6 +51,16 @@ function getVariance(close1, close2){
     let variance = ((close2-close1)/close1)*100;
     variance = Math.round(variance * 100) / 100;
     return variance;
+}
+
+//extracts a string in format "YYYY-MM-DD" from a Date object
+function extractDate(date){
+    let year = date.getFullYear();
+    let month = ('0' + (date.getMonth() + 1)).slice(-2);
+    let day = ('0' + date.getDate()).slice(-2);
+    
+    let dateString = `${year}-${month}-${day}`;
+    return dateString;
 }
 
 //sends a request to fetch the data of a given company on a specific date
@@ -100,7 +97,6 @@ function fetchMockData(date){
         throw error;
     })
 }
-
 
 function fetchMockDataByRange(dateFrom, dateTo){
     fetch("./response.json")
