@@ -20,8 +20,10 @@ function getData(){
 
 function subtractDays(days){
     let newDate = new Date();
-    newDate.setDate(newDate.getDate() - (days-1))
-    // console.log(newDate.getDay());
+    newDate.setDate(newDate.getDate() - (days))
+
+    console.log(newDate);
+
     return newDate;
 }
 
@@ -35,8 +37,6 @@ async function fetchData(symbol, cotizacion, date){
         
         const [dateData, close] = data;
         let variation = getVariation(close, cotizacion);
-        
-        let currentDate = extractDate(new Date());
 
         const markup = `<tr>
                             <td>${symbol}</td>
@@ -50,6 +50,19 @@ async function fetchData(symbol, cotizacion, date){
         
     } catch (error){
         console.error('Error ', error);
+
+        let timeZoneOffset = -3 * 60; //I had to do all this shit to avoid javascript from subtracting one day to the date!
+        let dateParts = date.split("-");
+        let year = parseInt(dateParts[0]);
+        let month = parseInt(dateParts[1]) - 1;
+        let day = parseInt(dateParts[2]);
+        let failedDate = new Date(Date.UTC(year, month, day) - timeZoneOffset * 60 * 1000);
+
+        if(failedDate.getDay() == 6){
+            alert(`El día, ${date} calculado es sábado!`);
+        } else if (failedDate.getDay() == 0) {
+            alert(`El día calculado, ${date} es domingo!`);
+        }
     }
 }
 
@@ -66,7 +79,8 @@ function extractDate(date){
     let month = ('0' + (date.getMonth() + 1)).slice(-2);
     let day = ('0' + date.getDate()).slice(-2);
     
-    let dateString = `${year}-${month}-${day}`;
+    let dateString = `${year}-${month}-${day}`
+
     return dateString;
 }
 
