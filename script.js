@@ -42,7 +42,7 @@ async function fetchData(symbol, cotizacion, date){
                             <td>${date}</td>
                             <td>${close}</td>
                             <td>${cotizacion}</td>
-                            <td>%${variation}</td>
+                            <td>${variation}%</td>
                         </tr>`
 
         document.querySelector('tr').insertAdjacentHTML('afterend', markup);
