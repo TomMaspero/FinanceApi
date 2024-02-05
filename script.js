@@ -27,7 +27,6 @@ function subtractDays(days){
     return newDate;
 }
 
-
 //once both data points have been resolved calculates the variation
 async function fetchData(symbol, cotizacion, date){
     try {
@@ -43,7 +42,7 @@ async function fetchData(symbol, cotizacion, date){
                             <td>${date}</td>
                             <td>${close}</td>
                             <td>${cotizacion}</td>
-                            <td>${variation}</td>
+                            <td>%${variation}</td>
                         </tr>`
 
         document.querySelector('tr').insertAdjacentHTML('afterend', markup);
