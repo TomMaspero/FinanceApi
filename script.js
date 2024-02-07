@@ -8,13 +8,14 @@ function getDataFromRange(){
 
 }
 
+
+
 function getData(){
     let symbol = document.getElementById("symbol_input").value.toUpperCase();
     let cotizacion = document.getElementById("cotizacion_input").value;
     let days = document.getElementById("days_back").value;
-
+    
     let date = extractDate(subtractDays(days));
-
     fetchData(symbol, cotizacion, date);
 }
 
@@ -25,6 +26,80 @@ function subtractDays(days){
     console.log(newDate);
 
     return newDate;
+}
+
+//extracts a string in format "YYYY-MM-DD" from a Date object
+function extractDate(date){
+    let year = date.getFullYear();
+    let month = ('0' + (date.getMonth() + 1)).slice(-2);
+    let day = ('0' + date.getDate()).slice(-2);
+    
+    let dateString = `${year}-${month}-${day}`
+
+    return dateString;
+}
+
+let holidays = [
+    {
+        date: '01-01',
+        holiday: "New Year's Day",
+    },
+    {
+        date: '01-15',
+        holiday: "Martin Luther King Jr. Day",
+    },
+    {
+        date: '02-19',
+        holiday: "President's Day",
+    },
+    {
+        date: '03-29',
+        holiday: "Good Friday",
+    },
+    {
+        date: '05-27',
+        holiday: 'Memorial Day',
+    },
+    {
+        date: '06-19',
+        holiday: 'Juneteenth National Independence Day',
+    },
+    {
+        date: '07-04',
+        holiday: "Independence Day",
+    },
+    {
+        date: '09-02',
+        holiday: "Labor Day",
+    },
+    {
+        date: '10-14',
+        holiday: 'Columbus Day',
+    },
+    {
+        date: '11-11',
+        holiday: 'Veterans Day',
+    },
+    {
+        date: '11-28',
+        holiday: "Thanksgiving",
+    },
+    {
+        date: '12-25',
+        holiday: "Christmas",
+    }
+]
+//checks if a given date is a stock market holiday
+function checkHoliday(date){
+    let monthDate = extractDate(date).slice(-5);
+    let holiday = '';
+
+    holidays.some((h) => {
+        if(h.date == monthDate){
+            holiday = h.holiday;
+        }
+    });
+    return holiday;
 }
 
 //once both data points have been resolved calculates the variation
@@ -56,11 +131,16 @@ async function fetchData(symbol, cotizacion, date){
         let month = parseInt(dateParts[1]) - 1;
         let day = parseInt(dateParts[2]);
         let failedDate = new Date(Date.UTC(year, month, day) - timeZoneOffset * 60 * 1000);
+        let holiday = checkHoliday(failedDate);
 
         if(failedDate.getDay() == 6){
             alert(`El día, ${date} calculado es sábado!`);
         } else if (failedDate.getDay() == 0) {
             alert(`El día calculado, ${date} es domingo!`);
+        } else if (holiday != '') {
+            alert(`El día ${date} es feriado: ${holiday}!`);
+        } else {
+            alert(`Error: no se encontraron datos para el día ${date}`);
         }
     }
 }
@@ -70,17 +150,6 @@ function getVariation(close1, close2){
     let variation = ((close2-close1)/close1)*100;
     variation = Math.round(variation * 100) / 100;
     return variation;
-}
-
-//extracts a string in format "YYYY-MM-DD" from a Date object
-function extractDate(date){
-    let year = date.getFullYear();
-    let month = ('0' + (date.getMonth() + 1)).slice(-2);
-    let day = ('0' + date.getDate()).slice(-2);
-    
-    let dateString = `${year}-${month}-${day}`
-
-    return dateString;
 }
 
 //sends a request to fetch the data of a given company on a specific date
